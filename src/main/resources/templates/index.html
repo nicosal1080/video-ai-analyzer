@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador de Videos</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.8.4"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<div class="bg-white shadow-md rounded-lg p-8 w-full max-w-lg">
+
+    <div id="response" th:if="response" th:fragment="response">
+
+        <h1 class="text-2xl font-bold text-center mb-4">¿Problemas Atrayendo Gente a tus Videos de YouTube?</h1>
+
+        <p class="text-gray-600 text-center mb-6">
+            Sube un video para obtener las mejores ideas de título, descripción y más con Inteligencia Artificial 🤖.
+        </p>
+
+        <div th:replace="~{error :: errorMessage}"></div>
+
+        <form th:hx-post="@{/upload}" hx-target="#response" hx-swap="innerHTML" method="post" enctype="multipart/form-data">
+            <div class="mb-4">
+                <label for="videoFile" class="block text-gray-700 mb-2">Selecciona el video a subir:</label>
+                <input type="file" id="videoFile" name="videoFile" class="border border-gray-300 rounded-md p-2 w-full"
+                       required accept="video/*">
+            </div>
+            <div class="mb-4">
+                <label for="context" class="block text-gray-700 mb-2">Proporciónanos un contexto breve (opcional):
+                </label>
+                <textarea id="context" name="context" class="border border-gray-300 rounded-md p-2 w-full" rows="3"
+                          placeholder="Escribe aquí cualquier información adicional sobre el video."></textarea>
+            </div>
+            <button type="submit" id="submit-button" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md
+            w-full hover:bg-blue-600">
+                Generar Ideas
+            </button>
+        </form>
+
+        <div id="loading-indicator" class="hidden mt-4 text-blue-500 flex justify-center items-center">
+            <svg class="animate-spin h-5 w-5 mr-3 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-8 8 8 8 0 01-8-8z"></path>
+            </svg>
+            Analizando contenido...
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    document.body.addEventListener('htmx:beforeRequest', function(evt) {
+        document.getElementById('submit-button').classList.add('hidden');
+        document.getElementById('loading-indicator').classList.remove('hidden');
+    });
+    function copyToClipboard(element) {
+        const textToCopy = element.querySelector('span').innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const feedback = element.querySelector('.copy-feedback');
+            feedback.classList.remove('opacity-0');
+            feedback.classList.add('opacity-100');
+
+            setTimeout(() => {
+                feedback.classList.remove('opacity-100');
+                feedback.classList.add('opacity-0');
+            }, 500);
+        }).catch(err => {
+            console.error('Error al copiar: ', err);
+        });
+    }
+
+    document.body.addEventListener('htmx:afterRequest', function(evt) {
+        const elements = document.querySelectorAll('.word-by-word');
+        let totalElements = elements.length;
+        let completed = 0;
+
+        elements.forEach(element => {
+            wordByWordAnimation(element, 100, function() {
+                completed++;
+                if (completed === totalElements) {
+                    document.getElementById('restartButtonContainer').classList.remove('hidden');
+                }
+            });
+        });
+    });
+    function wordByWordAnimation(element, delay = 100, callback = null) {
+        const text = element.innerText.trim();
+        const words = text.split(' ');
+        element.innerHTML = '';
+
+        words.forEach((word, index) => {
+            const span = document.createElement('span');
+            span.textContent = word + ' ';
+            span.style.visibility = 'hidden';
+            element.appendChild(span);
+
+            setTimeout(() => {
+                span.style.visibility = 'visible';
+                span.style.opacity = '1';
+
+                if (index === words.length - 1 && typeof callback === 'function') {
+                    callback();
+                }
+            }, index * delay);
+        });
+    }
+
+    function closeErrorMessage() {
+        document.getElementById('error-message').classList.add('hidden');
+    }
+</script>
+
+</body>
+</html>

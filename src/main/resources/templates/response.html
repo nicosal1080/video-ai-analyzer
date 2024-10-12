@@ -1,0 +1,49 @@
+<div class="transition" th:fragment="generatedResults">
+  <h1 class="text-2xl font-bold text-center mb-4">Resultados Generados... 📊</h1>
+  <p class="text-gray-600 text-center mb-6">
+    Elige tu favorito
+  </p>
+  <br>
+
+  <div class="mb-4">
+    <h2 class="text-xl font-semibold mb-4">Transcripción:</h2>
+    <div class="relative group cursor-pointer" onclick="copyToClipboard(this)">
+      <span th:text="${transcript}" class="word-by-word block p-4 border border-gray-300 bg-gray-100 text-gray-800
+      rounded-md w-full group-hover:bg-gray-200 transition"></span>
+      <span class="absolute inset-0 flex justify-center items-center text-gray-700 bg-gray-300
+      bg-opacity-50 opacity-0 rounded-md copy-feedback transition">Copiado</span>
+
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <h2 class="text-xl font-semibold mb-4">Ideas de Títulos:</h2>
+    <ul class="list-none mb-6 ">
+      <li th:each="idea : ${titles}" class="mb-2">
+        <div class="relative group cursor-pointer" onclick="copyToClipboard(this)">
+          <span th:text="${idea.titulo}" class="word-by-word block p-4 border border-gray-300 bg-gray-100 text-gray-800
+          rounded-md w-full group-hover:bg-gray-200 transition"></span>
+          <span class="absolute inset-0 flex justify-center items-center text-gray-700 bg-gray-300
+      bg-opacity-50 opacity-0 rounded-md copy-feedback transition">Copiado</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="mb-4">
+    <h2 class="text-xl font-semibold mb-4">Descripción:</h2>
+    <div class="relative group cursor-pointer" onclick="copyToClipboard(this)">
+      <span th:text="${description}" class="word-by-word block p-4 border border-gray-300 bg-gray-100 text-gray-800
+      rounded-md w-full group-hover:bg-gray-200 transition"></span>
+      <span class="absolute inset-0 flex justify-center items-center text-gray-700 bg-gray-300
+      bg-opacity-50 opacity-0 rounded-md copy-feedback transition">Copiado</span>
+    </div>
+  </div>
+
+  <div id="restartButtonContainer" class="text-center mt-6 hidden">
+    <a href="/" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md w-full hover:bg-blue-600">
+      Volver a Empezar
+    </a>
+  </div>
+
+</div>
