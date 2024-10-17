@@ -15,11 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AuthenticationController {
-
     private UserDetailsService userDetailsService;
-
     private PasswordEncoder passwordEncoder;
-
 
     @Autowired
     public AuthenticationController (UserDetailsService userDetailsService,
@@ -33,20 +30,16 @@ public class AuthenticationController {
         model.addAttribute("user", new User());
         return "login";
     }
-
     @PostMapping("/login")
     public String login(@ModelAttribute ("user") User user, BindingResult result, Model model) {
         System.out.println("here");
         return "redirect:/";
     }
-
-
     @GetMapping("/cuenta-nueva")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
         return "register";
     }
-
     @PostMapping("/cuenta-nueva")
     public String submitRegistrationForm(Model model, @ModelAttribute ("user") User user, BindingResult result) {
         if(result.hasErrors()) {
@@ -67,7 +60,7 @@ public class AuthenticationController {
                 .roles("USER")
                 .build();
 
-        // Cast to InMemoryUserDetailsManager to create the user (since this is the actual implementation)
+        // Cast to InMemoryUserDetailsManager to create the user (while I implement something with DB)
         if (userDetailsService instanceof InMemoryUserDetailsManager) {
             ((InMemoryUserDetailsManager) userDetailsService).createUser(newUser);
         }

@@ -22,9 +22,6 @@
     <div th:replace="~{error :: errorMessage}"></div>
 
     <form th:action="@{/login}" th:method="post" th:object="${user}">
-      <div th:if="${param.error != null}">
-        <p style="color:red;">Invalid username or password.</p>
-      </div>
 
       <div class="mb-4">
         <label for="username" class="block text-gray-700 mb-2">Username:</label>

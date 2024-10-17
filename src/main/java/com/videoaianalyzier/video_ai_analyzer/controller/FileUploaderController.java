@@ -17,22 +17,17 @@ import java.util.List;
 @RequestMapping("")
 @Controller
 public class FileUploaderController {
-
     private TranscriberService transcriberService;
-
     private AIAnalyzerService aiAnalyzerService;
-
     @Autowired
     public FileUploaderController(TranscriberService transcriberService, AIAnalyzerService aiAnalyzerService) {
         this.transcriberService = transcriberService;
         this.aiAnalyzerService = aiAnalyzerService;
     }
-
     @GetMapping("/")
     public String viewHome() {
         return "index";
     }
-
     @PostMapping("/upload")
     public String uploadVideo(@RequestParam("videoFile") MultipartFile file,
                               @RequestParam(value = "context", required = false) String context,
@@ -63,9 +58,4 @@ public class FileUploaderController {
 
         return "response :: generatedResults";
     }
-
-
-
-
-
 }

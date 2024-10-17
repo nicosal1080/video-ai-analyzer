@@ -14,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class WebSecurityConfiguration {
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -37,7 +36,6 @@ public class WebSecurityConfiguration {
 
                 return http.build();
     }
-
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User.builder()
@@ -54,15 +52,9 @@ public class WebSecurityConfiguration {
 
         return new InMemoryUserDetailsManager(user, admin);
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
-//    @Bean
-//    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-//        return (InMemoryUserDetailsManager) userDetailsService();
-//    }
 
 }

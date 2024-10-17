@@ -18,17 +18,13 @@ public class AIAnalyzerService {
 
     @Value("${openai.api.key}")
     private String openAiApiKey;
-
     private RestTemplate restTemplate;
-
     private static final Logger logger = LoggerFactory.getLogger(TranscriberService.class);
-
 
     @Autowired
     public AIAnalyzerService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-
     public List<VideoIdea> generateTitleAndDescription(String transcription, String context) {
 
         List<VideoIdea> videoIdeas = new ArrayList<>();
@@ -65,7 +61,6 @@ public class AIAnalyzerService {
         return videoIdeas;
 
     }
-
     private static JSONObject createRequestJsonObject(String transcription, String context) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("model", "gpt-3.5-turbo-instruct");
@@ -79,7 +74,6 @@ public class AIAnalyzerService {
         jsonObject.put("max_tokens", 500);
         return jsonObject;
     }
-
     private static void processJsonResponse(JSONObject jsonResponse, List<VideoIdea> videoIdeas) {
         String generatedText = jsonResponse.getJSONArray("choices").getJSONObject(0).
                 getString("text").trim();

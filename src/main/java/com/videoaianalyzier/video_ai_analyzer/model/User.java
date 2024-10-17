@@ -5,11 +5,8 @@ import java.util.List;
 public class User {
     private String name;
     private String username;
-
     private String email;
-
     private String password;
-
     private String confirmPassword;
     private List<VideoIdea> videoIdeas;
 
