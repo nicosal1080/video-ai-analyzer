@@ -1,8 +1,7 @@
 package com.videoaianalyzier.video_ai_analyzer.controller;
 
-import com.google.cloud.speech.v1.SpeechClient;
 import com.videoaianalyzier.video_ai_analyzer.model.VideoIdea;
-import com.videoaianalyzier.video_ai_analyzer.service.AIAnalizerService;
+import com.videoaianalyzier.video_ai_analyzer.service.AIAnalyzerService;
 import com.videoaianalyzier.video_ai_analyzer.service.TranscriberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RequestMapping("")
@@ -22,15 +20,15 @@ public class FileUploaderController {
 
     private TranscriberService transcriberService;
 
-    private AIAnalizerService aiAnalizerService;
+    private AIAnalyzerService aiAnalyzerService;
 
     @Autowired
-    public FileUploaderController(TranscriberService transcriberService, AIAnalizerService aiAnalyzerService) {
+    public FileUploaderController(TranscriberService transcriberService, AIAnalyzerService aiAnalyzerService) {
         this.transcriberService = transcriberService;
-        this.aiAnalizerService = aiAnalyzerService;
+        this.aiAnalyzerService = aiAnalyzerService;
     }
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String viewHome() {
         return "index";
     }
@@ -48,11 +46,11 @@ public class FileUploaderController {
             return "index :: response";
         }
 
-        List<VideoIdea> videoIdeas = this.aiAnalizerService.generateTitleAndDescription(transcribedAudio, context);
+        List<VideoIdea> videoIdeas = this.aiAnalyzerService.generateTitleAndDescription(transcribedAudio, context);
 
-        if(videoIdeas == null) {
+        if(videoIdeas == null || videoIdeas.isEmpty()) {
             model.addAttribute("errorMessage",
-                    "Error generando las recomendaciones. Inténtalo de nuevo");
+                    "Error generando las recomendaciones. Intenta de nuevo.");
             return "index :: response";
         }
 
@@ -65,6 +63,8 @@ public class FileUploaderController {
 
         return "response :: generatedResults";
     }
+
+
 
 
 

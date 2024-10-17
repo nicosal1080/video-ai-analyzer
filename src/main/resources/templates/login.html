@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/htmx.org@1.8.4"></script>
+</head>
+
+<body th:fragment="loginFragment" class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<div id="login-modal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+  <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-lg">
+
+    <h1 class="text-2xl font-bold text-center mb-4">Iniciar Sesión</h1>
+
+    <p class="text-gray-600 text-center mb-6">
+      Accede a tu cuenta para continuar.
+    </p>
+
+    <div th:replace="~{error :: errorMessage}"></div>
+
+    <form th:action="@{/login}" th:method="post" th:object="${user}">
+      <div th:if="${param.error != null}">
+        <p style="color:red;">Invalid username or password.</p>
+      </div>
+
+      <div class="mb-4">
+        <label for="username" class="block text-gray-700 mb-2">Username:</label>
+        <input type="text" id="username" name="username" autocomplete="on" th:field="*{username}"
+               class="border border-gray-300 rounded-md p-2 w-full"
+               required placeholder="Ingresa username">
+      </div>
+      <div class="mb-4">
+        <label for="password" class="block text-gray-700 mb-2">Contraseña:</label>
+        <input type="password" id="password" name="password" autocomplete="on" th:field="*{password}"
+               class="border border-gray-300 rounded-md p-2 w-full"
+               required placeholder="Ingresa tu contraseña">
+      </div>
+      <button type="submit" id="submit-button-login" class="bg-blue-500 text-white font-semibold py-2 px-4
+                rounded-md w-full hover:bg-blue-600"> Iniciar Sesión
+      </button>
+
+      <p class="mt-4 text-center text-gray-600">
+        No tienes una cuenta?
+        <a href="/cuenta-nueva" class="text-blue-500 hover:underline">Crea una nueva</a>
+      </p>
+
+    </form>
+
+    <div id="login-loading-indicator" class="hidden mt-4 text-blue-500 flex justify-center items-center">
+      <svg class="animate-spin h-5 w-5 mr-3 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+           viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-8 8 8 8 0 01-8-8z"></path>
+      </svg>
+      Iniciando sesión...
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

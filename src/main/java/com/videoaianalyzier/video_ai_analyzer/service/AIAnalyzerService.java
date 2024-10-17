@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AIAnalizerService {
+public class AIAnalyzerService {
 
     @Value("${openai.api.key}")
     private String openAiApiKey;
@@ -25,7 +25,7 @@ public class AIAnalizerService {
 
 
     @Autowired
-    public AIAnalizerService(RestTemplate restTemplate) {
+    public AIAnalyzerService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -80,7 +80,7 @@ public class AIAnalizerService {
         return jsonObject;
     }
 
-    private void processJsonResponse(JSONObject jsonResponse, List<VideoIdea> videoIdeas) {
+    private static void processJsonResponse(JSONObject jsonResponse, List<VideoIdea> videoIdeas) {
         String generatedText = jsonResponse.getJSONArray("choices").getJSONObject(0).
                 getString("text").trim();
         System.out.println(generatedText);

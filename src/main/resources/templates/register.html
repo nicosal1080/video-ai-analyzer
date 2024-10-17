@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.8.4"></script>
+</head>
+
+<body th:fragment="registerFragment" id="register-fragment" class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<div id="register-modal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+    <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-lg">
+
+        <h1 class="text-2xl font-bold text-center mb-4">Crear Cuenta</h1>
+
+        <p class="text-gray-600 text-center mb-6">
+            Regístrate para acceder a la plataforma.
+        </p>
+
+        <div th:replace="~{error :: errorMessage}"></div>
+
+        <form th:action="@{/cuenta-nueva}" th:object="${user}" method="post">
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 mb-2">Nombre Completo:</label>
+                <input type="text" id="name" th:field="*{name}" class="border border-gray-300 rounded-md p-2 w-full"
+                       required placeholder="Ingresa tu nombre completo">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 mb-2">Correo Electrónico:</label>
+                <input type="email" id="email" th:field="*{email}" class="border border-gray-300 rounded-md p-2 w-full"
+                       required placeholder="Ingresa tu correo electrónico">
+            </div>
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 mb-2">Username:
+                <input type="text" id="username" th:field="*{username}" class="border border-gray-300 rounded-md p-2 w-full"
+                       required placeholder="Ingresa tu correo electrónico">
+                </label>
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700 mb-2">Contraseña:</label>
+                <input type="password" id="password" th:field="*{password}" class="border border-gray-300 rounded-md p-2 w-full"
+                       required placeholder="Ingresa tu contraseña">
+            </div>
+            <div class="mb-4">
+                <label for="confirm-password" class="block text-gray-700 mb-2">Confirmar Contraseña:</label>
+                <input type="password" id="confirm-password" th:field="*{confirmPassword}" class="border border-gray-300 rounded-md p-2 w-full"
+                       required placeholder="Confirma tu contraseña">
+            </div>
+            <button type="submit" class="bg-green-500 text-white font-semibold py-2 px-4 rounded-md
+            w-full hover:bg-green-600">
+                Crear Cuenta
+            </button>
+        </form>
+
+
+        <div id="register-loading-indicator" class="hidden mt-4 text-green-500 flex justify-center items-center">
+            <svg class="animate-spin h-5 w-5 mr-3 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-8 8 8 8 0 01-8-8z"></path>
+            </svg>
+            Creando cuenta...
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
